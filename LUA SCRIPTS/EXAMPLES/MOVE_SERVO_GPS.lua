@@ -15,7 +15,8 @@ function update()
     local dist = target:get_distance(current)
     if dist < ACCEPTANCE_DISTANCE then
         SRV_Channels:set_output_norm(K_SCRIPTING1,1)
-        
+    end
+  end      
   return update, 10 -- run at 100hz
 end
 
