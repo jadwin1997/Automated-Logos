@@ -5,7 +5,7 @@
 
 local ACCEPTANCE_DISTANCE = 1.0
 
-local K_SCRIPTING1 = 94 -- for steering control
+local K_SCRIPTING1 = 94 -- for servo control
 
 function update()
   local target  = vehicle:get_target_location()
