@@ -11,8 +11,8 @@ im = cv2.imread("testing3.jpg")
 im = cv2.resize(im, (field_width*10,field_height*10))
 
 #Set upper and lower bounds for HSV mask to find contours to track. Refer to HSV color chart to get correct color (THIS IS NOT RGB)
-lower = [0,0,0] #[25,50,0] lower bound for yellow
-upper = [255, 255, 150]#[40,255,255] upper bound for yellow
+lower = [0,0,0] #[25,50,0] lower bound for black
+upper = [255, 255, 150]#[40,255,255] upper bound for black
 
 # create NumPy arrays from the color boundaries given
 lower = np.array(lower, dtype="uint8")
