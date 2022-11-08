@@ -9,6 +9,7 @@ Servo LeftMotor;  // create servo object to control ESC
 Servo RightMotor;  // create servo object to control ESC
 int state = 0;
 int PWM = 1500;
+int timeOld = 0;
 
 void setup() {
   LeftMotor.attach(9);  // attach ESC to pin 9
@@ -23,7 +24,7 @@ void loop() {
     case 0:    // Menu
       Serial.println("Welcome to AL's ESC tester");
       Serial.println("1: test left motor  2: test right motor  3: test both motors");
-
+      LeftMotor.writeMicroseconds(1450);
       //Read user choice and check if valid
       while(1==1){
         if(Serial.available()>0){
@@ -50,10 +51,12 @@ void loop() {
        }
 
       //Run ESC for 3 seconds
-      int timeOld = millis();
+      timeOld = millis();
       while((millis()-timeOld)<3000){
       LeftMotor.writeMicroseconds(PWM);
       }
+      state=0;
+      LeftMotor.writeMicroseconds(0);
       break;
 
     //TODO: add right motor and duel motor menu options.
