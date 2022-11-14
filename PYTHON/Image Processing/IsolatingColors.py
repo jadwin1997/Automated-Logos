@@ -102,7 +102,7 @@ for i in range(1,10): #runs through each color option (count is incremented at e
     elif count==8:
         if np.mean(output) != 255:
             cv2.imshow("Black", output)
-            cv2.imwrite('Black'+ filename, output)  
+            cv2.imwrite('Black'+ filename, output)  #sometimes has an issue with .png files where black becomes transparent (still looks good, but may cause problems later on)
     count=count+1
 
 #press any key to end program
