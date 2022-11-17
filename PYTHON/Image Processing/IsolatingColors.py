@@ -1,15 +1,26 @@
 #Code Description:
 #Program takes a user-input image and separates the colors into newly saved image files.
+#The code cannot detect and save white parts of the image as a numPy array (potential solution: for completely white images, invert the color before uploading to GUI)
+#Code also has issues picking up thin lines (look into fine-tuning)
 
 import numpy as np
+import numpy as gfg
 import cv2
+
+
+import os 
+assert os.path.exists("Image Processing")
 
 #Opening the source image
 PepsiLogo = "PepsiLogo.png"
 ColorWheel = "ColorWheel.jpg"
+#WhiteBlack = 'WhiteCircleBlackBg.png'
+MSULogo = "MSULogo.png"
+MsStateLogo = "MsStateLogo.png"
+#FootballField = "FootballField.jpg"
 filename = PepsiLogo
 img=cv2.imread(filename, cv2.IMREAD_UNCHANGED)
-img=cv2.resize(img, (0,0), fx=0.25, fy=0.25)
+img=cv2.resize(img, (0,0), fx=.25, fy=.25)
 
 
 #convert color from RGB to HSV
@@ -50,7 +61,10 @@ for i in range(1,10): #runs through each color option (count is incremented at e
         #Black
         lower= np.array([0,0,0], np.uint8)            
         upper= np.array([0,0,0], np.uint8)
-
+    #elif count==9:
+        #White
+        #lower= np.array([0,0,0], np.uint8) #Same HSV range as black because the black output is inverted further down to detect white sections           
+        #upper= np.array([0,0,0], np.uint8)
 
 
 
@@ -66,6 +80,11 @@ for i in range(1,10): #runs through each color option (count is incremented at e
 
     #combining the foreground and background to create an output that has isolated color
     output= cv2.bitwise_or(foreground, bk)
+    
+    #Inverting the color of the black output, so there is a numPy array for the white sections
+    #This may cause an issue for images that have a black background; some sections that are not black may be painted over with white (just be aware of that)
+    #if count==9:
+        #output=cv2.bitwise_not(output)
 
 
     #Display image, mask, and altered images
@@ -91,6 +110,7 @@ for i in range(1,10): #runs through each color option (count is incremented at e
         if np.mean(output) != 255:
             cv2.imshow("Blue", output)
             cv2.imwrite('Blue'+filename, output)
+
     elif count==6:
         if np.mean(output) != 255:
             cv2.imshow("Purple", output)
@@ -102,7 +122,11 @@ for i in range(1,10): #runs through each color option (count is incremented at e
     elif count==8:
         if np.mean(output) != 255:
             cv2.imshow("Black", output)
-            cv2.imwrite('Black'+ filename, output)  #sometimes has an issue with .png files where black becomes transparent (still looks good, but may cause problems later on)
+            cv2.imwrite('Black'+ filename, output)  
+    #elif count==9:
+        #if np.mean(output) != 255:
+            #cv2.imshow("White Section (Inverted)", output)
+            #cv2.imwrite("White"+filename, output)
     count=count+1
 
 #press any key to end program
@@ -115,4 +139,4 @@ cv2.destroyAllWindows()
 # - Save new image with isolated color /DONE
 # - figure out issue with saving pngs with transparent backgrounds 
 # - figure out how to save new images for only the colors present (ex. a logo with R, Black, Yellow should not save images for blue, purple, green) /DONE
-# - Set up a way for user-input filenames (from the GUI) to be read at the beginning of the program.
+# - Set up a way for user-uploaded files to be read at the beginning of the code
