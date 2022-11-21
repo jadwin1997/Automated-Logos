@@ -11,24 +11,18 @@ port:set_flow_control(0)
 local ACCEPTANCE_DISTANCE = 1.0
 
 local K_SCRIPTING1 = 94 -- for servo control
-
+local holder = 1
 function update()
-  local target  = vehicle:get_target_location()
-  local current = ahrs:get_location()
-
-  if (current and target) then
-    local dist = target:get_distance(current)
-    if dist < ACCEPTANCE_DISTANCE then
-        port:write(1)
+  
+    gcs:send_text(0,holder)
+    port:write(holder)
+    if(holder == 1)then
+        holder = 0
     else
-        port:write(0)
+        holder = 1
     end
-else
-    port:write(0)
-    gcs:send_text(0,"GPS location invalid")
-  end  
 
-  return update, 10 -- run at 100hz
+  return update, 1000 -- run at 1 hz
 end
 
 gcs:send_text(6, "Paint spray script is running")
