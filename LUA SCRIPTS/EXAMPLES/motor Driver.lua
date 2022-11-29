@@ -15,8 +15,9 @@ local steering = vehicle:get_control_output(CONTROL_OUTPUT_YAW)
 local throttle = vehicle:get_control_output(CONTROL_OUTPUT_THROTTLE)
 --convert from ackerman to skid steering
 if (steering and throttle) then
+    gcs:send_text(0,steering)
     local summed = steering+throttle
-    local diff = throttle-steering
+    local diff = (throttle-steering)
   if(diff>1)then
     diff = 1
   elseif (diff <-1) then
@@ -32,22 +33,22 @@ if (steering and throttle) then
 
     if(diff<0)then
     SRV_Channels:set_output_norm(K_SCRIPTING5,1)
-    SRV_Channels:set_output_norm(K_SCRIPTING1,-diff)
+    SRV_Channels:set_output_norm(K_SCRIPTING1,-1+(-diff))
     gcs:send_text(0,"m1 forward")
     else
     SRV_Channels:set_output_norm(K_SCRIPTING5,-1)
-    SRV_Channels:set_output_norm(K_SCRIPTING1,diff)
+    SRV_Channels:set_output_norm(K_SCRIPTING1,-1+diff)
     gcs:send_text(0,"m1 reverse")
     end
 
     if(summed<0)then
       SRV_Channels:set_output_norm(K_SCRIPTING6,1)
-      SRV_Channels:set_output_norm(K_SCRIPTING2,-summed)
+      SRV_Channels:set_output_norm(K_SCRIPTING2,-1+(-summed))
       gcs:send_text(0,"m2 forward")
 
     else 
       SRV_Channels:set_output_norm(K_SCRIPTING6,-1)
-      SRV_Channels:set_output_norm(K_SCRIPTING2,summed)
+      SRV_Channels:set_output_norm(K_SCRIPTING2,-1+summed)
       gcs:send_text(0,"m2 reverse")
 
     end

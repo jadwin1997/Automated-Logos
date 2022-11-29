@@ -10,7 +10,7 @@ function update()
 local leftMotor = SRV_Channels:get_output_norm(2)
 local rightMotor = SRV_Channels:get_output_norm(4)
 if(leftMotor<0)then
-    SRV_Channels:set_output_norm(K_SCRIPTING5,1)
+    SRV_Channels:set_output_norm(SRV_Channels:find_channel(K_SCRIPTING5),1)
     SRV_Channels:set_output_norm(1,-leftMotor)
 else
 
@@ -22,6 +22,6 @@ end
 
 
 
-end
+
 gcs:send_text(6, "Paint spray script is running")
 return update()

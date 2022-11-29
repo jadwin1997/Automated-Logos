@@ -18,8 +18,10 @@ function update()
   local target  = vehicle:get_target_location()
 
   -- get location of bot
-  local current = ahrs:get_location()
-
+  local current = ahrs:get_position()
+  if(target)then
+    gcs:send_text(6, string.format("New target %d %d", target:lat(), target:lng()))
+  end
   --check if current and target exist
   if (current and target) then
     --get distance from target
@@ -28,15 +30,18 @@ function update()
     -- check if within acceptance distance
     if dist < ACCEPTANCE_DISTANCE then
         --write 1 to arduino
+        gcs:send_text(0,"arrived at location.. Spraying")
         port:write(1)
     else
         --write 0 to arduino
-        port:write(0)
+        gcs:send_text(0,"not at location")
+        port:write(2)
     end
 else
-    port:write(0)
+    gcs:send_text(0,"gps invalid")
+    port:write(2)
   end      
-  return update, 10 -- run at 100hz
+  return update, 200 -- run at 5 Hz
 end
 
 gcs:send_text(6, "Paint spray script is running")
