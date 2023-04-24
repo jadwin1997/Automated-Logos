@@ -1,11 +1,11 @@
 // Pin declarations for UNO board
-const int PIN_DIR1 = 2;    // Motor direction signal
-const int PIN_PWM1 = 9;    // 490Hz pins 3, 9, 10, 11
+const int PIN_DIR1 = 4;    // Motor direction signal
+const int PIN_PWM1 = 10;    // 490Hz pins 3, 9, 10, 11
 const int DELAY = 20;     // Amount of time to delay between increments
 
 
-const int PIN_DIR2 = 4;    // Motor direction signal
-const int PIN_PWM2 = 10;    // 490Hz pins 3, 9, 10, 11
+const int PIN_DIR2 = 5;    // Motor direction signal
+const int PIN_PWM2 = 11;    // 490Hz pins 3, 9, 10, 11
 //const int DELAY = 20;     // Amount of time to delay between increments
 // Variables
 int _pwmCtrl = 0;         // PWM control signal 0-255
@@ -16,10 +16,14 @@ bool _dir1 = 0;            // Direction of the motor
 int _pwmCtrl2 = 0;         // PWM control signal 0-255
 int _pwmInc2 = 1;          // Increment the PWM by this amount 
 bool _dir2 = 0;            // Direction of the motor
+
+//PWM SENT TO ARDUINO
 volatile unsigned long pulseWidth1;
 volatile unsigned long pulseWidth2;
-const int pwmPin1 = 2;
-const int pwmPin2 = 4;
+
+//PWM INPUT PINS FROM PIXHAWK
+const int pwmPin1 = 3;
+const int pwmPin2 = 9;
 
 
 void setup() 
@@ -29,23 +33,55 @@ void setup()
     
     // Set PWM pin to output
     pinMode(PIN_PWM1, OUTPUT);
+    pinMode(pwmPin1,INPUT);
 
+    // Set DIR pin to output
+    pinMode(PIN_DIR2, OUTPUT);
+    
+    // Set PWM pin to output
+    pinMode(PIN_PWM2, OUTPUT);
+    pinMode(pwmPin2,INPUT);
+
+
+    
+    Serial.begin(9600);
       attachInterrupt(digitalPinToInterrupt(pwmPin1), handleInterrupt1, CHANGE);
       attachInterrupt(digitalPinToInterrupt(pwmPin2), handleInterrupt2, CHANGE);
 }
 
 void loop() 
 {
+    
+    //motor 1
     if(pulseWidth1 > 1500){
       digitalWrite(PIN_DIR1,HIGH);
       analogWrite(PIN_PWM1, map(pulseWidth1,1500,2000,0,255));
+      Serial.print(pulseWidth1);
+      Serial.println(" Forward");
     }
     else{
       digitalWrite(PIN_DIR1,LOW);
       analogWrite(PIN_PWM1, map(pulseWidth1,1000,1500,0,255));
+      Serial.print(pulseWidth1);
+      Serial.println(" Backward");
     }
 
-    //delay(DELAY);
+    
+    //motor 2
+    if(pulseWidth2 > 1500){
+      digitalWrite(PIN_DIR2,HIGH);
+      analogWrite(PIN_PWM2, map(pulseWidth2,1500,2000,0,255));
+      Serial.print(pulseWidth2);
+      Serial.println(" Forward");
+    }
+    else{
+      digitalWrite(PIN_DIR2,LOW);
+      analogWrite(PIN_PWM2, map(pulseWidth2,1000,1500,0,255));
+      Serial.print(pulseWidth2);
+      Serial.println(" Backward");
+    }
+
+    
 }
 
 
