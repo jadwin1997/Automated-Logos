@@ -47,7 +47,11 @@ void setup()
     Serial.begin(9600);
       attachInterrupt(digitalPinToInterrupt(pwmPin1), handleInterrupt1, CHANGE);
 <<<<<<< HEAD
+<<<<<<< HEAD
       attachInterrupt(digitalPinToInterrupt(pwmPin2), handleInterrupt1, CHANGE);
+=======
+      attachInterrupt(digitalPinToInterrupt(pwmPin2), handleInterrupt2, CHANGE);
+>>>>>>> dad92f1aa9cfe76f52e2e5c645a21eb9644ae634
 =======
       attachInterrupt(digitalPinToInterrupt(pwmPin2), handleInterrupt2, CHANGE);
 >>>>>>> dad92f1aa9cfe76f52e2e5c645a21eb9644ae634
@@ -61,7 +65,11 @@ void loop()
       digitalWrite(PIN_DIR1,HIGH);
       analogWrite(PIN_PWM1, map(pulseWidth1,1500,2000,0,255));
 <<<<<<< HEAD
+<<<<<<< HEAD
       Serial.print(pulseWidth1);
+=======
+      Serial.print(PIN_PWM1);
+>>>>>>> dad92f1aa9cfe76f52e2e5c645a21eb9644ae634
 =======
       Serial.print(PIN_PWM1);
 >>>>>>> dad92f1aa9cfe76f52e2e5c645a21eb9644ae634
@@ -85,7 +93,11 @@ void loop()
     else{
       digitalWrite(PIN_DIR2,LOW);
 <<<<<<< HEAD
+<<<<<<< HEAD
       analogWrite(PIN_PWM2, map(pulseWidth2,1000,1500,255,0));
+=======
+      analogWrite(PIN_PWM2, map(pulseWidth2,1000,1500,0,255));
+>>>>>>> dad92f1aa9cfe76f52e2e5c645a21eb9644ae634
 =======
       analogWrite(PIN_PWM2, map(pulseWidth2,1000,1500,0,255));
 >>>>>>> dad92f1aa9cfe76f52e2e5c645a21eb9644ae634
@@ -102,7 +114,11 @@ void handleInterrupt1() {
   static unsigned long start_time;
   static bool state = LOW;
 <<<<<<< HEAD
+<<<<<<< HEAD
   handleInterrupt2();
+=======
+  
+>>>>>>> dad92f1aa9cfe76f52e2e5c645a21eb9644ae634
 =======
   
 >>>>>>> dad92f1aa9cfe76f52e2e5c645a21eb9644ae634
