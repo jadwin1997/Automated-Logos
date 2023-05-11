@@ -10,3 +10,5 @@ To upload lua files to the pixhawk, you will need to open mission planner and co
 
 To program the Arduino, you will need the Arduino IDE. In the Arduino IDE, you must choose the correct port number and board type (in our case, arduino uno). LINK: https://docs.arduino.cc/
 
+The Python gui requires the Tkinter Library to be installed (python3 pip -m tkinter in terminal). We used a Figma -> Tkinter program to convert from our Figma design to Python code. More information on this process can be found on this github: https://github.com/ParthJadhav/Tkinter-Designer
+
